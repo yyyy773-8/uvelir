@@ -1,0 +1,1466 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MWA - Ювелирные изделия ручной работы</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Raleway:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <style>
+        :root {
+            --primary-color: #d4af37; /* золотой */
+            --secondary-color: #2c2c2c; /* темный */
+            --accent-color: #8b7355; /* коричневый */
+            --light-color: #f8f9fa;
+            --dark-color: #1a1a1a;
+            --transition: all 0.3s ease;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Raleway', sans-serif;
+            color: var(--dark-color);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 600;
+        }
+        
+        /* Навигация */
+        .navbar {
+            background-color: rgba(255, 255, 255, 0.95) !important;
+            backdrop-filter: blur(10px);
+            transition: var(--transition);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .navbar.scrolled {
+            padding-top: 5px;
+            padding-bottom: 5px;
+            background-color: rgba(255, 255, 255, 0.98) !important;
+        }
+        
+        .navbar-brand {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            font-size: 1.8rem;
+            color: var(--primary-color) !important;
+        }
+        
+        .navbar-brand span {
+            color: var(--secondary-color);
+        }
+        
+        .nav-link {
+            font-weight: 500;
+            color: var(--dark-color) !important;
+            margin: 0 5px;
+            transition: var(--transition);
+            position: relative;
+        }
+        
+        .nav-link:hover, .nav-link.active {
+            color: var(--primary-color) !important;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            background: var(--primary-color);
+            left: 50%;
+            bottom: 0;
+            transition: var(--transition);
+            transform: translateX(-50%);
+        }
+        
+        .nav-link:hover::after, .nav-link.active::after {
+            width: 80%;
+        }
+        
+        /* Hero секция */
+        .hero {
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1974&q=80');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+        }
+        
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            animation: fadeInDown 1s ease;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            animation: fadeInUp 1s ease 0.3s both;
+        }
+        
+        /* Кнопки */
+        .btn-primary {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+            color: var(--dark-color);
+            font-weight: 600;
+            padding: 12px 30px;
+            border-radius: 30px;
+            transition: var(--transition);
+        }
+        
+        .btn-primary:hover {
+            background-color: transparent;
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
+        }
+        
+        /* Карточки товаров */
+        .product-card {
+            border: none;
+            border-radius: 10px;
+            overflow: hidden;
+            transition: var(--transition);
+            height: 100%;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        }
+        
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+        
+        .product-card .card-img-top {
+            height: 250px;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+        
+        .product-card:hover .card-img-top {
+            transform: scale(1.05);
+        }
+        
+        .product-card .card-body {
+            padding: 1.5rem;
+        }
+        
+        .product-card .price {
+            color: var(--primary-color);
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+        
+        /* Галерея */
+        .gallery-item {
+            overflow: hidden;
+            border-radius: 10px;
+            position: relative;
+            cursor: pointer;
+        }
+        
+        .gallery-item img {
+            transition: var(--transition);
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+        }
+        
+        .gallery-item:hover img {
+            transform: scale(1.1);
+        }
+        
+        .gallery-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(212, 175, 55, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: var(--transition);
+        }
+        
+        .gallery-item:hover .gallery-overlay {
+            opacity: 1;
+        }
+        
+        /* Секции */
+        section {
+            padding: 100px 0;
+        }
+        
+        .section-title {
+            margin-bottom: 60px;
+            text-align: center;
+        }
+        
+        .section-title h2 {
+            position: relative;
+            display: inline-block;
+            padding-bottom: 15px;
+            color: var(--secondary-color);
+        }
+        
+        .section-title h2::after {
+            content: '';
+            position: absolute;
+            width: 70px;
+            height: 3px;
+            background: var(--primary-color);
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        /* Футер */
+        footer {
+            background-color: var(--secondary-color);
+            color: var(--light-color);
+            padding: 70px 0 30px;
+        }
+        
+        footer h5 {
+            color: var(--primary-color);
+            margin-bottom: 20px;
+        }
+        
+        footer ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        footer ul li {
+            margin-bottom: 10px;
+        }
+        
+        footer ul li a {
+            color: #ccc;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+        
+        footer ul li a:hover {
+            color: var(--primary-color);
+            padding-left: 5px;
+        }
+        
+        /* Корзина */
+        .cart-btn {
+            position: relative;
+        }
+        
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background-color: var(--primary-color);
+            color: var(--dark-color);
+            font-size: 0.7rem;
+            font-weight: bold;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        /* Аккордеон */
+        .accordion-button:not(.collapsed) {
+            background-color: rgba(212, 175, 55, 0.1);
+            color: var(--primary-color);
+        }
+        
+        .accordion-button:focus {
+            box-shadow: 0 0 0 0.25rem rgba(212, 175, 55, 0.25);
+        }
+        
+        /* Анимации */
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Таймер */
+        .timer {
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 30px;
+            display: inline-block;
+        }
+        
+        .timer span {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+        
+        /* Уведомления */
+        .alert-notification {
+            position: fixed;
+            top: 100px;
+            right: 20px;
+            z-index: 9999;
+            min-width: 300px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            border: none;
+            border-left: 5px solid var(--primary-color);
+            animation: slideInRight 0.5s ease;
+        }
+        
+        @keyframes slideInRight {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        
+        /* Мобильная адаптация */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            section {
+                padding: 60px 0;
+            }
+            
+            .section-title h2 {
+                font-size: 1.8rem;
+            }
+            
+            .timer {
+                font-size: 0.9rem;
+            }
+            
+            .timer span {
+                font-size: 1.2rem;
+            }
+        }
+        
+        /* Отступы между кнопками */
+        .view-product {
+            margin-bottom: 12px; /* Отступ снизу для кнопки "Подробнее" */
+            margin-right: 8px; /* И отступ справа для горизонтального расположения */
+        }
+        
+        /* Для мобильных устройств */
+        @media (max-width: 768px) {
+            .view-product {
+                margin-bottom: 8px;
+                margin-right: 0;
+                width: 100%;
+            }
+            
+            .add-to-cart {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Навигация -->
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <i class="bi bi-gem me-2"></i>MWA <span>| Ювелирные изделия</span>
+            </a>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#home">Главная</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#about">О нас</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#catalog">Каталог</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#gallery">Галерея</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#care">Уход</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#contacts">Контакты</a>
+                    </li>
+                    <li class="nav-item ms-lg-3">
+                        <button class="btn btn-outline-dark position-relative cart-btn" data-bs-toggle="offcanvas" data-bs-target="#cartOffcanvas">
+                            <i class="bi bi-cart3"></i>
+                            <span class="cart-count">0</span>
+                        </button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+<!-- Hero секция -->
+<section id="home" class="hero" style="background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('qqq.jpg') center/cover no-repeat;">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-8">
+                <h1>Ювелирные изделия ручной работы MWA</h1>
+                <p class="lead">Мужские, женские аксессуары ручной работы. Уникальные изделия, созданные с любовью и вниманием к деталям. Каждое украшение - это произведение искусства, которое подчеркивает вашу индивидуальность.</p>
+                <div class="d-flex flex-wrap gap-3">
+                    <a href="#catalog" class="btn btn-primary btn-lg">Смотреть каталог</a>
+                    <button class="btn btn-outline-light btn-lg" data-bs-toggle="modal" data-bs-target="#deliveryModal">Условия доставки</button>
+                </div>
+                
+                <!-- Таймер обратного отсчета -->
+                <div class="timer mt-4">
+                    <p class="mb-1">Прием заказов на сегодня заканчивается через:</p>
+                    <div id="countdown" class="d-flex justify-content-center gap-3">
+                        <div><span id="hours">12</span> ч</div>
+                        <div><span id="minutes">45</span> мин</div>
+                        <div><span id="seconds">30</span> сек</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+    <!-- О нас -->
+    <section id="about" class="bg-light">
+        <div class="container">
+            <div class="section-title">
+                <h2>О нас</h2>
+                <p class="text-muted">Узнайте больше о нашем бренде и философии</p>
+            </div>
+            
+            <div class="row align-items-center">
+                <div class="col-lg-6 mb-4 mb-lg-0">
+                    <h3 class="mb-4">MWA - Мужские, Женские Аксессуары</h3>
+                    <p>Наша мастерская создает уникальные ювелирные изделия ручной работы уже более 10 лет. Мы сочетаем традиционные техники с современным дизайном, чтобы создавать аксессуары, которые подчеркивают индивидуальность каждого клиента.</p>
+                    <p>Мы используем только качественные материалы: натуральные камни, серебро 925 пробы, позолоту и экологичную кожу. Каждое изделие проходит несколько этапов контроля качества перед тем, как попасть к вам.</p>
+                    <p>Наша миссия - создавать украшения, которые будут радовать вас годами, становясь частью вашей истории и стиля.</p>
+                </div>
+                
+                <div class="col-lg-6">
+                    <!-- Карусель -->
+                    <div id="aboutCarousel" class="carousel slide" data-bs-ride="carousel">
+                        <div class="carousel-indicators">
+                            <button type="button" data-bs-target="#aboutCarousel" data-bs-slide-to="0" class="active"></button>
+                            <button type="button" data-bs-target="#aboutCarousel" data-bs-slide-to="1"></button>
+                            <button type="button" data-bs-target="#aboutCarousel" data-bs-slide-to="2"></button>
+                            <button type="button" data-bs-target="#aboutCarousel" data-bs-slide-to="3"></button>
+                        </div>
+                        <div class="carousel-inner rounded">
+                            <div class="carousel-item active">
+                                <img src="2.svg" class="d-block w-100" alt="Процесс создания">
+                                <div class="carousel-caption d-none d-md-block">
+                                    <p></p>
+                                </div>
+                            </div>
+                            <div class="carousel-item">
+                                <img src="https://m.media-amazon.com/images/S/aplus-media-library-service-media/0d376623-8193-4cab-8eef-ecb601ae214f.__CR0,0,650,350_PT0_SX650_V1___.jpg" class="d-block w-100" alt="Инструменты мастера">
+                                <div class="carousel-caption d-none d-md-block">
+                                    <p></p>
+                                </div>
+                            </div>
+                            <div class="carousel-item">
+                                <img src="1.svg" class="d-block w-100" alt="Качественные материалы">
+                                <div class="carousel-caption d-none d-md-block">
+                                    <p></p>
+                                </div>
+                            </div>
+                            <div class="carousel-item">
+                                <img src="3.svg" class="d-block w-100" alt="Готовые изделия">
+                                <div class="carousel-caption d-none d-md-block">
+                                    <p></p>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="carousel-control-prev" type="button" data-bs-target="#aboutCarousel" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon"></span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#aboutCarousel" data-bs-slide="next">
+                            <span class="carousel-control-next-icon"></span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Каталог -->
+    <section id="catalog">
+        <div class="container">
+            <div class="section-title">
+                <h2>Каталог продукции</h2>
+                <p class="text-muted">Выберите категорию и найдите свое идеальное украшение</p>
+            </div>
+            
+            <!-- Фильтры категорий -->
+            <div class="row mb-5">
+                <div class="col-12">
+                    <div class="d-flex flex-wrap justify-content-center gap-2">
+                        <button class="btn btn-outline-dark filter-btn active" data-filter="all">Все товары</button>
+                        <button class="btn btn-outline-dark filter-btn" data-filter="male">Мужские</button>
+                        <button class="btn btn-outline-dark filter-btn" data-filter="female">Женские</button>
+                        <button class="btn btn-outline-dark filter-btn" data-filter="accessories">Аксессуары</button>
+                        <button class="btn btn-outline-dark filter-btn" data-filter="new">Новинки</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Карточки товаров -->
+            <div class="row" id="product-container">
+                <!-- Товары будут добавлены через JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Галерея -->
+    <section id="gallery" class="bg-light">
+        <div class="container">
+            <div class="section-title">
+                <h2>Галерея изделий</h2>
+                <p class="text-muted">Наши работы в деталях</p>
+            </div>
+            
+            <div class="row g-4">
+                <div class="col-md-4 col-sm-6">
+                    <div class="gallery-item" data-bs-toggle="modal" data-bs-target="#galleryModal" data-image="https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80">
+                        <img src="fianit2.jpg" alt="Кольцо с камнем">
+                        <div class="gallery-overlay">
+                            <i class="bi bi-zoom-in text-white fs-1"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-6">
+                    <div class="gallery-item" data-bs-toggle="modal" data-bs-target="#galleryModal" data-image="https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80">
+                        <img src="onix2.jpg" alt="Золотой браслет">
+                        <div class="gallery-overlay">
+                            <i class="bi bi-zoom-in text-white fs-1"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-6">
+                    <div class="gallery-item" data-bs-toggle="modal" data-bs-target="#galleryModal" data-image="https://images.unsplash.com/photo-1605100804763-247f67b3557e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80">
+                        <img src="onix3.jpg" alt="Серьги-гвоздики">
+                        <div class="gallery-overlay">
+                            <i class="bi bi-zoom-in text-white fs-1"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-6">
+                    <div class="gallery-item" data-bs-toggle="modal" data-bs-target="#galleryModal" data-image="https://images.unsplash.com/photo-1511499767150-a48a237f0083?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80">
+                        <img src="fianit3.jpg" alt="Кожаный браслет">
+                        <div class="gallery-overlay">
+                            <i class="bi bi-zoom-in text-white fs-1"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-6">
+                    <div class="gallery-item" data-bs-toggle="modal" data-bs-target="#galleryModal" data-image="https://images.unsplash.com/photo-1535632787350-4c0fbe5e582d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80">
+                        <img src="vstavka2.webp" alt="Кулон с аметистом">
+                        <div class="gallery-overlay">
+                            <i class="bi bi-zoom-in text-white fs-1"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-6">
+                    <div class="gallery-item" data-bs-toggle="modal" data-bs-target="#galleryModal" data-image="https://images.unsplash.com/photo-1603561596112-0d034e4f5c57?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80">
+                        <img src="bras5852.jpg" alt="Серебряное кольцо">
+                        <div class="gallery-overlay">
+                            <i class="bi bi-zoom-in text-white fs-1"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-6">
+                    <div class="gallery-item" data-bs-toggle="modal" data-bs-target="#galleryModal" data-image="https://images.unsplash.com/photo-1594576722512-582d5577dc56?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80">
+                        <img src="https://pmdn.sokolov.io/pics/91/5A/0333D1499977D5A2620BD4683110.jpg" alt="Перстень с гранатом">
+                        <div class="gallery-overlay">
+                            <i class="bi bi-zoom-in text-white fs-1"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-6">
+                    <div class="gallery-item" data-bs-toggle="modal" data-bs-target="#galleryModal" data-image="https://images.unsplash.com/photo-1546868871-7041f2a55e12?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80">
+                        <img src="framebril.svg" alt="Подвеска с жемчугом">
+                        <div class="gallery-overlay">
+                            <i class="bi bi-zoom-in text-white fs-1"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-6">
+                    <div class="gallery-item" data-bs-toggle="modal" data-bs-target="#galleryModal" data-image="https://images.unsplash.com/photo-1573408301185-9146fe634ad0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80">
+                        <img src="https://pmdn.sokolov.io/pics/4B/56/F70396FCE0519C5984C64D63A3B5.jpg" alt="Брошь с сапфиром">
+                        <div class="gallery-overlay">
+                            <i class="bi bi-zoom-in text-white fs-1"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Уход за изделиями -->
+    <section id="care">
+        <div class="container">
+            <div class="section-title">
+                <h2>Советы по уходу</h2>
+                <p class="text-muted">Как сохранить красоту ваших украшений надолго</p>
+            </div>
+            
+            <div class="row">
+                <div class="col-lg-8 mx-auto">
+                    <div class="accordion" id="careAccordion">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#careOne">
+                                    Как чистить серебряные изделия
+                                </button>
+                            </h2>
+                            <div id="careOne" class="accordion-collapse collapse show" data-bs-parent="#careAccordion">
+                                <div class="accordion-body">
+                                    <p>Для чистки серебряных изделий используйте мягкую ткань, смоченную в специальном растворе для чистки серебра или в мыльном растворе. Избегайте абразивных материалов, которые могут поцарапать поверхность.</p>
+                                    <p>После чистки тщательно протрите изделие сухой мягкой тканью. Храните серебряные украшения в сухом месте, в отдельных мешочках, чтобы предотвратить потемнение.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#careTwo">
+                                    Уход за изделиями с камнями
+                                </button>
+                            </h2>
+                            <div id="careTwo" class="accordion-collapse collapse" data-bs-parent="#careAccordion">
+                                <div class="accordion-body">
+                                    <p>Украшения с натуральными камнями требуют особого ухода. Очищайте их мягкой щеткой с мыльным раствором, избегая попадания воды в крепления камней.</p>
+                                    <p>Не подвергайте изделия с камнями резким перепадам температур и воздействию химических веществ (парфюмерии, косметики, бытовой химии).</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#careThree">
+                                    Правила хранения ювелирных изделий
+                                </button>
+                            </h2>
+                            <div id="careThree" class="accordion-collapse collapse" data-bs-parent="#careAccordion">
+                                <div class="accordion-body">
+                                    <p>Храните украшения в отдельных мягких мешочках или шкатулках с отделениями, чтобы предотвратить царапины и повреждения.</p>
+                                    <p>Избегайте хранения украшений в ванной комнате или других помещениях с повышенной влажностью. Регулярно проверяйте крепления камней и замки, особенно перед ноской.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#careFour">
+                                    Что делать, если украшение потемнело
+                                </button>
+                            </h2>
+                            <div id="careFour" class="accordion-collapse collapse" data-bs-parent="#careAccordion">
+                                <div class="accordion-body">
+                                    <p>Потемнение серебра - естественный процесс окисления. Для восстановления первоначального вида используйте специальные салфетки для чистки серебра или профессиональные средства.</p>
+                                    <p>Для деликатных изделий с камнями или сложной фактурой лучше обратиться к профессиональному ювелиру для чистки.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Контакты и форма заказа -->
+    <section id="contacts" class="bg-light">
+        <div class="container">
+            <div class="section-title">
+                <h2>Сделать заказ</h2>
+                <p class="text-muted">Оставьте свои данные, и мы свяжемся с вами для уточнения деталей</p>
+            </div>
+            
+            <div class="row">
+                <div class="col-lg-6 mb-4 mb-lg-0">
+                    <h3 class="mb-4">Контактная информация</h3>
+                    <div class="mb-4">
+                        <p><i class="bi bi-geo-alt-fill text-primary me-2"></i> г. Москва, ул. Ювелирная, д. 15</p>
+                        <p><i class="bi bi-telephone-fill text-primary me-2"></i> +7 (495) 123-45-67</p>
+                        <p><i class="bi bi-envelope-fill text-primary me-2"></i> info@mwa-jewelry.ru</p>
+                        <p><i class="bi bi-clock-fill text-primary me-2"></i> Пн-Пт: 10:00-20:00, Сб-Вс: 11:00-18:00</p>
+                    </div>
+                    
+                    <div class="mt-5">
+                        <h5>Подпишитесь на рассылку</h5>
+                        <p>Узнавайте первыми о новых коллекциях и специальных предложениях</p>
+                        <div class="input-group mb-3">
+                            <input type="email" class="form-control" placeholder="Ваш email" id="newsletterEmail">
+                            <button class="btn btn-primary" type="button" id="subscribeBtn">Подписаться</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-6">
+                    <form id="orderForm">
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Ваше имя *</label>
+                            <input type="text" class="form-control" id="name" required>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="phone" class="form-label">Телефон *</label>
+                            <input type="tel" class="form-control" id="phone" required>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email *</label>
+                            <input type="email" class="form-control" id="email" required>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="orderDate" class="form-label">Желаемая дата получения заказа *</label>
+                            <input type="date" class="form-control" id="orderDate" required>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="comments" class="form-label">Комментарии к заказу</label>
+                            <textarea class="form-control" id="comments" rows="4"></textarea>
+                        </div>
+                        
+                        <div class="form-check mb-4">
+                            <input class="form-check-input" type="checkbox" id="agreeTerms" required>
+                            <label class="form-check-label" for="agreeTerms">
+                                Я согласен с <a href="#" data-bs-toggle="modal" data-bs-target="#termsModal">условиями обработки персональных данных</a>
+                            </label>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary btn-lg w-100">Отправить заявку</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Футер -->
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 mb-4 mb-lg-0">
+                    <h5 class="mb-4">MWA Ювелирные изделия</h5>
+                    <p>Создаем уникальные ювелирные изделия ручной работы уже более 10 лет. Мужские, женские аксессуары, которые подчеркивают вашу индивидуальность.</p>
+                </div>
+                
+                <div class="col-lg-2 col-md-6 mb-4 mb-md-0">
+                    <h5 class="mb-4">Навигация</h5>
+                    <ul>
+                        <li><a href="#home">Главная</a></li>
+                        <li><a href="#about">О нас</a></li>
+                        <li><a href="#catalog">Каталог</a></li>
+                        <li><a href="#gallery">Галерея</a></li>
+                    </ul>
+                </div>
+                
+                <div class="col-lg-2 col-md-6 mb-4 mb-md-0">
+                    <h5 class="mb-4">Информация</h5>
+                    <ul>
+                        <li><a href="#care">Уход за изделиями</a></li>
+                        <li><a href="#" data-bs-toggle="modal" data-bs-target="#deliveryModal">Доставка и оплата</a></li>
+                        <li><a href="#" data-bs-toggle="modal" data-bs-target="#termsModal">Политика конфиденциальности</a></li>
+                    </ul>
+                </div>
+                
+                <div class="col-lg-4">
+                    <h5 class="mb-4">Мы в соцсетях</h5>
+                    <div class="d-flex gap-3">
+                        <a href="#" class="text-light fs-4"><i class="bi bi-instagram"></i></a>
+                        <a href="#" class="text-light fs-4"><i class="bi bi-facebook"></i></a>
+                        <a href="#" class="text-light fs-4"><i class="bi bi-pinterest"></i></a>
+                        <a href="#" class="text-light fs-4"><i class="bi bi-telegram"></i></a>
+                    </div>
+                    <p class="mt-4">© 2025 MWA Ювелирные изделия. Все права защищены.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Модальное окно галереи -->
+    <div class="modal fade" id="galleryModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body text-center">
+                    <img id="galleryModalImage" src="" alt="" class="img-fluid rounded">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальное окно товара -->
+    <div class="modal fade" id="productModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="productModalTitle"></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <img id="productModalImage" src="" alt="" class="img-fluid mb-3 rounded">
+                    <p id="productModalDescription"></p>
+                    <p class="price fs-4" id="productModalPrice"></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+                    <button type="button" class="btn btn-primary" id="addToCartModalBtn">Добавить в корзину</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальное окно доставки -->
+    <div class="modal fade" id="deliveryModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Условия доставки и оплаты</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <h6>Доставка</h6>
+                    <p>Доставка по Москве в пределах МКАД - 300 руб. (при заказе от 5000 руб. - бесплатно).</p>
+                    <p>Доставка по России - от 500 руб. в зависимости от региона.</p>
+                    <p>Самовывоз: г. Москва, ул. Ювелирная, д. 15.</p>
+                    
+                    <h6 class="mt-4">Оплата</h6>
+                    <p>Наличными при получении.</p>
+                    <p>Банковской картой онлайн или при получении.</p>
+                    <p>Безналичный расчет для юридических лиц.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальное окно условий -->
+    <div class="modal fade" id="termsModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Политика конфиденциальности</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Мы собираем и используем ваши персональные данные исключительно для обработки заказов и улучшения качества наших услуг.</p>
+                    <p>Мы не передаем ваши данные третьим лицам без вашего согласия, за исключением случаев, предусмотренных законодательством РФ.</p>
+                    <p>Вы можете в любой момент отозвать свое согласие на обработку персональных данных, отписавшись от рассылки или связавшись с нами.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Оффканвас корзины -->
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="cartOffcanvas">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title">Ваша корзина</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+        </div>
+        <div class="offcanvas-body">
+            <div id="cartItems">
+                <p class="text-muted text-center">Ваша корзина пуста</p>
+            </div>
+            <div class="mt-4">
+                <div class="d-flex justify-content-between mb-3">
+                    <span>Итого:</span>
+                    <span id="cartTotal">0 руб.</span>
+                </div>
+                <button class="btn btn-primary w-100" id="checkoutBtn" data-bs-toggle="modal" data-bs-target="#paymentModal">Оформить заказ</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальное окно оплаты -->
+    <div class="modal fade" id="paymentModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Оформление заказа</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Для завершения оформления заказа, пожалуйста, заполните <a href="#contacts">контактную форму</a> ниже на странице.</p>
+                    <p>После получения вашей заявки наш менеджер свяжется с вами в течение 2 часов в рабочее время для уточнения деталей заказа и согласования способа оплаты и доставки.</p>
+                    <div class="alert alert-info mt-3">
+                        <i class="bi bi-info-circle me-2"></i> Вы можете продолжить добавление товаров в корзину перед оформлением заказа.
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Продолжить покупки</button>
+                    <a href="#contacts" class="btn btn-primary" data-bs-dismiss="modal">Перейти к форме заказа</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Уведомление -->
+    <div class="alert alert-success alert-dismissible fade d-none" role="alert" id="notification">
+        <div id="notificationMessage"></div>
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Custom JavaScript -->
+    <script>
+        // Данные о товарах
+        const products = [
+            {
+                id: 1,
+                name: "Серебряное кольцо с черным ониксом",
+                category: "male",
+                price: 7500,
+                image: "https://серебрянаяптица.рф/upload/resize_cache/iblock/7f2/400_400_2/huaiukr1zhjw0zjwjn970ytjsg1c2dpn.jpeg",
+                description: "Стильное мужское кольцо из серебра 925 пробы с натуральным черным ониксом. Идеально подходит для повседневной носки и особых случаев. Ручная работа, каждый экземпляр уникален."
+            },
+            {
+                id: 2,
+                name: "Золотой браслет с бриллиантами",
+                category: "female",
+                price: 28500,
+                image: "https://static.alltime.ru/obj/catalog/jewellary/miuz/img/big/V2018-GR470019ADI-R.jpg",
+                description: "Элегантный золотой браслет с мелкими бриллиантами. Изысканное украшение для особых мероприятий. Изготовлен из золота 585 пробы с натуральными бриллиантами."
+            },
+            {
+                id: 3,
+                name: "Серьги-гвоздики с фианитами",
+                category: "female",
+                price: 6200,
+                image: "https://img.poizon.ru/4WqTzjhq4Jll7wxAzV9GSzu8jyyqq74BgBqhwJcNKrM/w:717/g:no/el:1/aHR0cHM6Ly9zdGF0aWMucG9pem9uLnJ1L3Byby1pbWcvb3JpZ2luLWltZy8yMDI0MDMyMi9kMzBmZDg3MGQxMmU0M2ZlYTU3ZDc0ZDNmMGZjNzQ5Yi5qcGc",
+                description: "Серебряные серьги-гвоздики с фианитами высшего качества. Универсальное украшение для любого образа. Подходят для чувствительной кожи."
+            },
+            {
+                id: 4,
+                name: "Кожаный браслет с серебряной вставкой",
+                category: "male",
+                price: 4500,
+                image: "https://basket-28.wbbasket.ru/vol5353/part535390/535390776/images/big/1.webp",
+                description: "Мужской браслет из натуральной итальянской кожи с серебряной пластиной ручной работы. Сдержанный и стильный аксессуар для современного мужчины."
+            },
+            {
+                id: 5,
+                name: "Кулон с аметистом",
+                category: "female",
+                price: 8900,
+                image: "https://static.mineralmarket.ru/img/p/504689-1975110.jpg",
+                description: "Серебряный кулон с натуральным аметистом из Бразилии. Украшение с глубоким фиолетовым оттенком камня. Цепочка входит в комплект."
+            },
+            {
+                id: 6,
+                name: "Наручные часы с кожаным ремешком",
+                category: "accessories",
+                price: 12500,
+                image: "https://static.insales-cdn.com/images/products/1/7729/2468068913/2_1000%D1%851000.jpg",
+                description: "Классические наручные часы с кожаным ремешком и серебряным корпусом. Швейцарский механизм, водонепроницаемость 50м. Сочетание функциональности и стиля."
+            },
+            {
+                id: 7,
+                name: "Комплект: кольцо, кулон и серьги",
+                category: "new",
+                price: 15200,
+                image: "https://basket-24.wbbasket.ru/vol4178/part417804/417804569/images/big/1.webp",
+                description: "Комплект украшений из серебра 925 пробы с цирконами. Отличный подарок для особого случая."
+            },
+            {
+                id: 8,
+                name: "Мужской перстень с гранатом",
+                category: "new",
+                price: 11000,
+                image: "https://jewel-design.ru/upload/iblock/54a/54ae5e2e75135578abeaa24d81e22f25.jpg",
+                description: "Массивный мужской перстень из серебра с натуральным гранатом из Индии. Выразительное украшение для уверенных мужчин. Вес изделия 18г."
+            },
+            {
+                id: 9,
+                name: "Подвеска с жемчугом",
+                category: "female",
+                price: 7300,
+                image: "https://2pmdn.sokolov.io/images/3a/bf/cb99c7bc44d9b7b30c150c4cd34b.jpg?width=500&color=F8FAFB",
+                description: "Нежная серебряная подвеска с натуральным речным жемчугом. Идеальна для романтического образа. Длина цепочки 45см."
+            },
+            {
+                id: 10,
+                name: "Мужская цепочка с кулоном",
+                category: "male",
+                price: 9800,
+                image: "https://avatars.mds.yandex.net/get-mpic/4936002/2a0000018a481031b55e43df3a6cb8592ffb/orig",
+                description: "Серебряная цепочка панцирного плетения с массивным кулоном. Длина 60см, толщина 4мм. Стильный аксессуар для повседневной носки."
+            },
+            {
+                id: 11,
+                name: "Брошь с сапфиром",
+                category: "accessories",
+                price: 14200,
+                image: "https://static.alltime.ru/obj/catalog/jewellary/vesna-jewelry/img/big/92669-156-160-00.jpg",
+                description: "Золотая брошь с натуральным сапфиром и бриллиантовым обрамлением. Эксклюзивный дизайн, ручная работа. Идеальна для вечерних нарядов."
+            },
+            {
+                id: 12,
+                name: "Обручальные кольца",
+                category: "new",
+                price: 32500,
+                image: "https://gc.ourgold.ru/images/public/goods/59/251/59251/PZYkxCn3KBTRjP1zYMSxqCKO7zJVXV6xGkwaPGs4.jpg",
+                description: "Парные обручальные кольца из белого и желтого золота 585 пробы. Возможна гравировка внутри кольца. Символ вечной любви и верности."
+            }
+        ];
+
+        // Корзина
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+        let currentProductId = null;
+
+        // Инициализация при загрузке страницы
+        document.addEventListener('DOMContentLoaded', function() {
+            // Инициализация даты заказа (мин. дата - завтра)
+            const orderDateInput = document.getElementById('orderDate');
+            const tomorrow = new Date();
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            orderDateInput.min = tomorrow.toISOString().split('T')[0];
+            
+            // Заполнение каталога товарами
+            renderProducts('all');
+            
+            // Обновление корзины
+            updateCart();
+            
+            // Начало таймера
+            startCountdown();
+            
+            // Плавная прокрутка для навигационных ссылок
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    const targetId = this.getAttribute('href');
+                    if(targetId === '#') return;
+                    
+                    const targetElement = document.querySelector(targetId);
+                    if(targetElement) {
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 80,
+                            behavior: 'smooth'
+                        });
+                        
+                        // Обновление активного пункта меню
+                        document.querySelectorAll('.nav-link').forEach(link => {
+                            link.classList.remove('active');
+                        });
+                        this.classList.add('active');
+                    }
+                });
+            });
+            
+            // Обработчик фильтров товаров
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const filter = this.getAttribute('data-filter');
+                    
+                    // Обновление активной кнопки
+                    document.querySelectorAll('.filter-btn').forEach(b => {
+                        b.classList.remove('active');
+                    });
+                    this.classList.add('active');
+                    
+                    // Отображение отфильтрованных товаров
+                    renderProducts(filter);
+                });
+            });
+            
+            // Обработчик галереи
+            document.querySelectorAll('.gallery-item').forEach(item => {
+                item.addEventListener('click', function() {
+                    const imageUrl = this.getAttribute('data-image');
+                    document.getElementById('galleryModalImage').src = imageUrl;
+                });
+            });
+            
+            // Обработчик формы заказа
+            document.getElementById('orderForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                showNotification('Заявка успешно отправлена! Мы свяжемся с вами в течение 2 часов.', 'success');
+                this.reset();
+                
+                // Сброс даты на минимально допустимую
+                const tomorrow = new Date();
+                tomorrow.setDate(tomorrow.getDate() + 1);
+                document.getElementById('orderDate').value = tomorrow.toISOString().split('T')[0];
+            });
+            
+            // Обработчик подписки на рассылку
+            document.getElementById('subscribeBtn').addEventListener('click', function() {
+                const email = document.getElementById('newsletterEmail').value;
+                if(email && validateEmail(email)) {
+                    showNotification('Вы успешно подписались на рассылку!', 'success');
+                    document.getElementById('newsletterEmail').value = '';
+                } else {
+                    showNotification('Пожалуйста, введите корректный email адрес.', 'warning');
+                }
+            });
+            
+            // Обработчик для кнопки оформления заказа в корзине
+            document.getElementById('checkoutBtn').addEventListener('click', function() {
+                if(cart.length === 0) {
+                    showNotification('Корзина пуста. Добавьте товары перед оформлением заказа.', 'warning');
+                }
+            });
+            
+            // Изменение стиля навигации при прокрутке
+            window.addEventListener('scroll', function() {
+                const navbar = document.querySelector('.navbar');
+                if(window.scrollY > 100) {
+                    navbar.classList.add('scrolled');
+                } else {
+                    navbar.classList.remove('scrolled');
+                }
+                
+                // Обновление активного пункта меню при прокрутке
+                updateActiveNavLink();
+            });
+        });
+
+        // Функция отображения товаров
+        function renderProducts(filter) {
+            const container = document.getElementById('product-container');
+            container.innerHTML = '';
+            
+            let filteredProducts = products;
+            if(filter !== 'all') {
+                filteredProducts = products.filter(product => product.category === filter);
+            }
+            
+            filteredProducts.forEach(product => {
+                const col = document.createElement('div');
+                col.className = 'col-md-6 col-lg-4 col-xl-3 mb-4';
+                
+                col.innerHTML = `
+                    <div class="card product-card h-100" data-category="${product.category}">
+                        <img src="${product.image}" class="card-img-top" alt="${product.name}">
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title">${product.name}</h5>
+                            <p class="card-text flex-grow-1">${product.description.substring(0, 100)}...</p>
+                            <div class="d-flex justify-content-between align-items-center mt-auto">
+                                <span class="price">${product.price.toLocaleString()} руб.</span>
+                                <div>
+                                    <button class="btn btn-sm btn-outline-primary me-2 view-product" data-id="${product.id}">Подробнее</button>
+                                    <button class="btn btn-sm btn-primary add-to-cart" data-id="${product.id}">В корзину</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                container.appendChild(col);
+            });
+            
+            // Добавление обработчиков для кнопок товаров
+            document.querySelectorAll('.view-product').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const productId = parseInt(this.getAttribute('data-id'));
+                    viewProductDetails(productId);
+                });
+            });
+            
+            document.querySelectorAll('.add-to-cart').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const productId = parseInt(this.getAttribute('data-id'));
+                    addToCart(productId);
+                });
+            });
+        }
+
+        // Функция просмотра деталей товара
+        function viewProductDetails(productId) {
+            const product = products.find(p => p.id === productId);
+            if(!product) return;
+            
+            currentProductId = productId;
+            
+            document.getElementById('productModalTitle').textContent = product.name;
+            document.getElementById('productModalImage').src = product.image;
+            document.getElementById('productModalImage').alt = product.name;
+            document.getElementById('productModalDescription').textContent = product.description;
+            document.getElementById('productModalPrice').textContent = `${product.price.toLocaleString()} руб.`;
+            
+            const productModal = new bootstrap.Modal(document.getElementById('productModal'));
+            productModal.show();
+            
+            // Обработчик кнопки добавления в корзину в модальном окне
+            document.getElementById('addToCartModalBtn').onclick = function() {
+                addToCart(productId);
+                productModal.hide();
+            };
+        }
+
+        // Функция добавления в корзину
+        function addToCart(productId) {
+            const product = products.find(p => p.id === productId);
+            if(!product) return;
+            
+            const existingItem = cart.find(item => item.id === productId);
+            
+            if(existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({
+                    id: product.id,
+                    name: product.name,
+                    price: product.price,
+                    image: product.image,
+                    quantity: 1
+                });
+            }
+            
+            // Сохранение в localStorage
+            localStorage.setItem('cart', JSON.stringify(cart));
+            
+            // Обновление отображения корзины
+            updateCart();
+            
+            // Показать уведомление
+            showNotification(`"${product.name}" добавлен в корзину!`, 'success');
+        }
+
+        // Функция обновления корзины
+        function updateCart() {
+            const cartCount = document.querySelector('.cart-count');
+            const cartItemsContainer = document.getElementById('cartItems');
+            const cartTotal = document.getElementById('cartTotal');
+            
+            // Обновление счетчика
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            cartCount.textContent = totalItems;
+            
+            // Обновление содержимого корзины
+            if(cart.length === 0) {
+                cartItemsContainer.innerHTML = '<p class="text-muted text-center">Ваша корзина пуста</p>';
+                cartTotal.textContent = '0 руб.';
+                return;
+            }
+            
+            let itemsHTML = '';
+            let total = 0;
+            
+            cart.forEach(item => {
+                const itemTotal = item.price * item.quantity;
+                total += itemTotal;
+                
+                itemsHTML += `
+                    <div class="d-flex align-items-center mb-3">
+                        <img src="${item.image}" alt="${item.name}" class="rounded me-3" width="60" height="60">
+                        <div class="flex-grow-1">
+                            <h6 class="mb-1">${item.name}</h6>
+                            <div class="d-flex align-items-center">
+                                <span class="me-3">${item.price.toLocaleString()} руб.</span>
+                                <div class="input-group input-group-sm" style="width: 120px;">
+                                    <button class="btn btn-outline-secondary decrease-quantity" data-id="${item.id}">-</button>
+                                    <input type="text" class="form-control text-center" value="${item.quantity}" readonly>
+                                    <button class="btn btn-outline-secondary increase-quantity" data-id="${item.id}">+</button>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="btn btn-link text-danger remove-from-cart" data-id="${item.id}">
+                            <i class="bi bi-trash"></i>
+                        </button>
+                    </div>
+                `;
+            });
+            
+            cartItemsContainer.innerHTML = itemsHTML;
+            cartTotal.textContent = `${total.toLocaleString()} руб.`;
+            
+            // Добавление обработчиков для кнопок в корзине
+            document.querySelectorAll('.increase-quantity').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const productId = parseInt(this.getAttribute('data-id'));
+                    changeQuantity(productId, 1);
+                });
+            });
+            
+            document.querySelectorAll('.decrease-quantity').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const productId = parseInt(this.getAttribute('data-id'));
+                    changeQuantity(productId, -1);
+                });
+            });
+            
+            document.querySelectorAll('.remove-from-cart').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const productId = parseInt(this.getAttribute('data-id'));
+                    removeFromCart(productId);
+                });
+            });
+        }
+
+        // Функция изменения количества товара
+        function changeQuantity(productId, change) {
+            const item = cart.find(item => item.id === productId);
+            if(!item) return;
+            
+            item.quantity += change;
+            
+            if(item.quantity <= 0) {
+                cart = cart.filter(item => item.id !== productId);
+            }
+            
+            localStorage.setItem('cart', JSON.stringify(cart));
+            updateCart();
+        }
+
+        // Функция удаления из корзины
+        function removeFromCart(productId) {
+            cart = cart.filter(item => item.id !== productId);
+            localStorage.setItem('cart', JSON.stringify(cart));
+            updateCart();
+            
+            showNotification('Товар удален из корзины', 'info');
+        }
+
+        // Функция показа уведомлений
+        function showNotification(message, type = 'success') {
+            const notification = document.getElementById('notification');
+            const notificationMessage = document.getElementById('notificationMessage');
+            
+            notification.className = `alert alert-${type} alert-dismissible fade show alert-notification`;
+            notificationMessage.textContent = message;
+            
+            notification.classList.remove('d-none');
+            
+            // Автоматическое скрытие через 5 секунд
+            setTimeout(() => {
+                notification.classList.add('d-none');
+            }, 5000);
+        }
+
+        // Функция валидации email
+        function validateEmail(email) {
+            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return re.test(email);
+        }
+
+        // Функция обновления активного пункта меню при прокрутке
+        function updateActiveNavLink() {
+            const sections = document.querySelectorAll('section');
+            const navLinks = document.querySelectorAll('.nav-link');
+            
+            let currentSectionId = '';
+            
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop - 100;
+                const sectionHeight = section.clientHeight;
+                
+                if(window.scrollY >= sectionTop && window.scrollY < sectionTop + sectionHeight) {
+                    currentSectionId = '#' + section.getAttribute('id');
+                }
+            });
+            
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if(link.getAttribute('href') === currentSectionId) {
+                    link.classList.add('active');
+                }
+            });
+        }
+
+        // Таймер обратного отсчета
+        function startCountdown() {
+            // Установим время окончания приема заказов на сегодня (например, 20:00)
+            const now = new Date();
+            const endTime = new Date();
+            endTime.setHours(20, 0, 0, 0); // 20:00
+            
+            // Если текущее время больше времени окончания, установим на завтра
+            if(now > endTime) {
+                endTime.setDate(endTime.getDate() + 1);
+            }
+            
+            function updateCountdown() {
+                const now = new Date();
+                const diff = endTime - now;
+                
+                if(diff <= 0) {
+                    // Если время истекло, установим на следующий день
+                    endTime.setDate(endTime.getDate() + 1);
+                    updateCountdown();
+                    return;
+                }
+                
+                const hours = Math.floor(diff / (1000 * 60 * 60));
+                const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+                
+                document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
+                document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
+                document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
+            }
+            
+            updateCountdown();
+            setInterval(updateCountdown, 1000);
+        }
+    </script>
+</body>
+</html>
